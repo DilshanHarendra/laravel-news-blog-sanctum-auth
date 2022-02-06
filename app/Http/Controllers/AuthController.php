@@ -43,11 +43,12 @@ class AuthController extends Controller
         ]);
         $user=User::where('email',$fields['email'])->first();
 
+
         if (!$user)
         {
             return response([
                 'message'=>'Invalid Email'
-            ],401);
+            ],400);
         }else
         {
             if (Hash::check($fields['password'],$user->password))
@@ -57,13 +58,13 @@ class AuthController extends Controller
                         'user'=>$user,
                         'token'=>$token
                     ];
-                    return $response($response,201);
+                    return response($response,201);
                 }
             else
             {
                 return response([
                     'messages'=>'Invalid Password'
-                ],401);
+                ],400);
             }
         }
     }
